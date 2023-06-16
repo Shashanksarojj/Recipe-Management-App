@@ -1,28 +1,21 @@
 package dao;
 
-import javax.management.Query;
-
 import entity.Customer;
 import entity.LoggedInUserId;
 import exception.SomethingWentWrongException;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 
 
 public class CustomerDAOImpl implements CustomerDAO {
 
-    private EntityManagerFactory entityManagerFactory;
-
-    public CustomerDAOImpl() {
-        entityManagerFactory = Persistence.createEntityManagerFactory("recipe-management-system");
-    }
+  
 
     @Override
     public void registerCustomer(Customer customer) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+    	 EntityManager entityManager = null;
         try {
+        	entityManager = EMUtils.getEntityManager();
             entityManager.getTransaction().begin();
             entityManager.persist(customer);
             entityManager.getTransaction().commit();
@@ -36,8 +29,9 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public Customer getCustomerById(int customerId) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = null;
         try {
+        	entityManager = EMUtils.getEntityManager();
             return entityManager.find(Customer.class, customerId);
         } finally {
             entityManager.close();
@@ -46,8 +40,9 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public Customer getCustomerByUsername(String username) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = null;
         try {
+        	entityManager = EMUtils.getEntityManager();
             TypedQuery<Customer> query = entityManager.createQuery("FROM Customer WHERE username = :username", Customer.class);
             query.setParameter("username", username);
             return query.getSingleResult();
@@ -61,8 +56,9 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public void updateCustomer(Customer customer) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = null;
         try {
+        	entityManager = EMUtils.getEntityManager();
             entityManager.getTransaction().begin();
             entityManager.merge(customer);
             entityManager.getTransaction().commit();
@@ -76,8 +72,9 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public void deleteCustomer(Customer customer) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = null;
         try {
+        	entityManager = EMUtils.getEntityManager();
             entityManager.getTransaction().begin();
             entityManager.remove(entityManager.contains(customer) ? customer : entityManager.merge(customer));
             entityManager.getTransaction().commit();
@@ -91,8 +88,9 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public void login(String username, String password) throws SomethingWentWrongException {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = null;
         try {
+        	entityManager = EMUtils.getEntityManager();
         	TypedQuery<Customer> query = entityManager.createQuery("FROM Customer WHERE username = :username", Customer.class);
             query.setParameter("username", username);
             Customer customer = query.getSingleResult();
@@ -113,7 +111,4 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
     }
 
-    public void close() {
-        entityManagerFactory.close();
-    }
 }
