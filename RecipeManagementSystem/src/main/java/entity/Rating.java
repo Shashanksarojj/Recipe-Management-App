@@ -2,6 +2,7 @@ package entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -10,40 +11,51 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "likes")
-public class Like {
-    
+@Table(name = "ratings")
+public class Rating {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "like_id")
-    private long likeId;
+    private int id;
 
-    @ManyToOne
+    @Column(name = "rating_value")
+    private int ratingValue;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @Column(name = "liked")
-    private boolean liked;
+    // Constructors, getters, and setters
 
-    public Like() {
+    public Rating() {
     }
 
-    public Like(Recipe recipe, Customer customer, boolean liked) {
+    public Rating(int ratingValue, Recipe recipe, Customer customer) {
+        this.ratingValue = ratingValue;
         this.recipe = recipe;
         this.customer = customer;
-        this.liked = liked;
     }
 
-    public long getLikeId() {
-        return likeId;
+    // Getters and Setters
+
+    public int getId() {
+        return id;
     }
 
-    public void setLikeId(long likeId) {
-        this.likeId = likeId;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getRatingValue() {
+        return ratingValue;
+    }
+
+    public void setRatingValue(int ratingValue) {
+        this.ratingValue = ratingValue;
     }
 
     public Recipe getRecipe() {
@@ -61,14 +73,4 @@ public class Like {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-
-    public boolean isLiked() {
-        return liked;
-    }
-
-    public void setLiked(boolean liked) {
-        this.liked = liked;
-    }
 }
-
-
