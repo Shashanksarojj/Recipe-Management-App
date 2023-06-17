@@ -73,4 +73,11 @@ public class Rating {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+	@Override
+	public String toString() {
+		return "Rating [id=" + id + ", ratingValue=" + ratingValue + "]";
+	}
+    
+    
 }

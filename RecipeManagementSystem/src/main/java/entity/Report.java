@@ -44,5 +44,12 @@ public class Report {
     public void setReportName(String reportName) {
         this.reportName = reportName;
     }
+
+	@Override
+	public String toString() {
+		return "Report [id=" + id + ", reportName=" + reportName + "]";
+	}
+    
+    
 }
 
