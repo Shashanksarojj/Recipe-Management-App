@@ -5,7 +5,9 @@ package service;
 import java.util.List;
 
 import dao.RecipeDAO;
+import dao.RecipeDAOImpl;
 import entity.Recipe;
+import exception.NoRecordFoundException;
 import exception.ServiceException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -18,15 +20,26 @@ public class RecipeServiceImpl implements RecipeService {
     private EntityManager entityManager;
 
     private RecipeDAO recipeDAO;
+    
+    
 
     public RecipeServiceImpl(RecipeDAO recipeDAO) {
         this.recipeDAO = recipeDAO;
     }
 
-    @Override
+    public RecipeServiceImpl() {
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
     public void addRecipe(Recipe recipe) throws ServiceException {
         try {
-            entityManager.persist(recipe);
+        	recipeDAO = new RecipeDAOImpl();
+//        	System.out.println("Inside addRecipe in RecipeService");
+        	recipeDAO.addRecipe(recipe);
+//            entityManager.persist(recipe);
+            
+            
         } catch (Exception e) {
             throw new ServiceException("Failed to add recipe", e);
         }
@@ -35,35 +48,47 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public void updateRecipe(Recipe recipe) throws ServiceException {
         try {
-            entityManager.merge(recipe);
+        	recipeDAO = new RecipeDAOImpl();
+//        	System.out.println("Inside addRecipe in RecipeService");
+        	recipeDAO.updateRecipe(recipe);
+//            entityManager.merge(recipe);
         } catch (Exception e) {
             throw new ServiceException("Failed to update recipe", e);
         }
     }
 
     @Override
-    public void deleteRecipe(Recipe recipe) throws ServiceException {
+    public void deleteRecipe(int recipeId) throws ServiceException {
         try {
-            entityManager.remove(recipe);
+            Recipe recipe = getRecipeById(recipeId);
+            if (recipe == null) {
+                throw new NoRecordFoundException("Recipe not found with ID: " + recipeId);
+            }
+            recipeDAO.deleteRecipe(recipe);
         } catch (Exception e) {
-            throw new ServiceException("Failed to delete recipe", e);
+            throw new ServiceException("Failed to delete recipe with ID: " + recipeId, e);
         }
     }
 
+
     @Override
-    public Recipe getRecipeById(long recipeId) throws ServiceException {
+    public Recipe getRecipeById(int recipeId) throws ServiceException{
         try {
-            return entityManager.find(Recipe.class, recipeId);
+            return recipeDAO.getRecipeById(recipeId);
         } catch (Exception e) {
-            throw new ServiceException("Failed to get recipe by ID", e);
+            throw new ServiceException("Failed to get recipe by ID: " + recipeId, e);
         }
     }
 
     @Override
     public List<Recipe> getAllRecipes() throws ServiceException {
         try {
-            return entityManager.createQuery("SELECT r FROM Recipe r", Recipe.class).getResultList();
+//        	 System.out.println("In Service of getAllRecipe");
+        	 recipeDAO = new RecipeDAOImpl();
+//        	 System.out.println("In Service of getAllRecipe");
+            return recipeDAO.getAllRecipes();
         } catch (Exception e) {
+//        	System.out.println("error In Service");
             throw new ServiceException("Failed to get all recipes", e);
         }
     }
@@ -71,10 +96,11 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<Recipe> searchRecipesByIngredient(String ingredientName) throws ServiceException {
         try {
-            // TODO: Implement the search logic using the entityManager or other necessary methods
-            throw new ServiceException("Search recipes by ingredient is not implemented yet");
-        } catch (Exception e) {
+            return recipeDAO.searchRecipesByIngredients(ingredientName);
+        } catch (ServiceException e) {
             throw new ServiceException("Failed to search recipes by ingredient", e);
         }
     }
+    
+    
 }

@@ -7,17 +7,15 @@ public class App
 {	
 	
 	static void displayAdminMenu() {
-//		System.out.println("1. Add Insurance Company");
-//		System.out.println("2. View All Insurance Companies");
-//		System.out.println("3. Update Insurance Company Details");
-//		System.out.println("4. Add Insurance Plan");
-//		System.out.println("5. View All Insurance Plan");
-//		System.out.println("6. Update Insurance Plan");
-//		System.out.println("7. Update premium for an age band of a plan");
-//		System.out.println("8. See List of all Customers");
-//		System.out.println("9. See policy reports");
-//		System.out.println("10. Make Policies Discountinued");
-		System.out.println("0. Logout");
+		System.out.println("1. Add Recipe");
+        System.out.println("2. Update Recipe");
+        System.out.println("3. Delete Recipe");
+        System.out.println("4. View All Recipes");
+        System.out.println("5. Search RecipesByIngredient");
+//        System.out.println("6. Update Category");
+//        System.out.println("7. Delete Category");
+//        System.out.println("8. Search Recipes by Ingredient");
+        System.out.println("0. Logout");
 	}
 	
 	static void adminMenu(Scanner sc) {
@@ -28,35 +26,33 @@ public class App
 			choice = sc.nextInt();
     		switch(choice) {
     			case 1:
-//    				AdminUI.addCompany(sc);
+    				AdminUI.addRecipe(sc);
+//    				System.out.println("Selected 1");
     				break;
     			case 2:
-//    				AdminUI.viewCompanies();
+    				AdminUI.updateRecipe(sc);
     				break;
     			case 3:
-//    				AdminUI.updateCompanyDetails(sc);
+    				AdminUI.deleteRecipe(sc);
+    				
     				break;
     			case 4:
-//    				AdminUI.addPlan(sc);
+    				AdminUI.viewAllRecipes();
     				break;
     			case 5:
 //    				AdminUI.viewPlan();
+    				AdminUI.searchRecipesByIngredient(sc);
     				break;
-    			case 6:
+//    			case 6:
 //    				AdminUI.updatePlan(sc);
-    				break;
-    			case 7:
+//    				break;
+//    			case 7:
 //    				AdminUI.updatePremiumAndSurcharge(sc);
-    				break;
-    			case 8:
+//    				break;
+//    			case 8:
 //    				AdminUI.viewAllCustomers();
-    				break;
-    			case 9:
-//    				AdminUI.viewPolicyReport();
-    				break;
-    			case 10:
-//    				AdminUI.makePoliciesDiscontinued();
-    				break;
+//    				break;
+    			
     			case 0:
     				System.out.println("Bye Bye Admin");
     				break;
@@ -70,7 +66,7 @@ public class App
 		String username = sc.next();
 		System.out.print("Enter password ");
 		String password = sc.next();
-		if(username.equals("admin") && password.equals("admin")) {
+		if(username.equals("a") && password.equals("a")) {
 			adminMenu(sc);
 		}else {
 			System.out.println("Invalid Username of Password");
@@ -79,32 +75,41 @@ public class App
     public static void main( String[] args )
     {
     	Scanner sc = new Scanner(System.in);
-    	int choice = 0;
-    	do {
-    		System.out.println("1. Admin Login");
-    		System.out.println("2. Customer Login");
-    		System.out.println("3. Customer Registration");
-    		System.out.println("0. Exit");
-    		System.out.print("Enter Selection ");
-    		choice = sc.nextInt();
-    		switch(choice) {
-    			case 1:
-    				adminLogin(sc);
-    				break;
-    			case 2:
-//    				CustomerUI.userLogin(sc);
-    				break;
-    			case 3:
-//    				CustomerUI.customerRegistration(sc);
-    				break;
-    			case 0:
-    				System.out.println("Thanks for using the services");
-    				break;
-    			default:
-    				System.out.println("Invalid Selection, try again");
-    		}
-    	}while(choice != 0);
-    	sc.close();
-    }
+    	  int choice = 0;
+          do {
+              System.out.println("1. Admin Login");
+              System.out.println("2. User Login");
+              System.out.println("3. User Registration");
+              System.out.println("0. Exit");
+              System.out.print("Enter Selection: ");
+              choice = sc.nextInt();
+              switch (choice) {
+                  case 1:
+                      adminLogin(sc);
+                      break;
+                  case 2:
+                      userLogin(sc);
+                      break;
+                  case 3:
+                      userRegistration(sc);
+                      break;
+                  case 0:
+                      System.out.println("Thank you for using the Recipe Management System!");
+                      break;
+                  default:
+                      System.out.println("Invalid Selection, please try again");
+              }
+          } while (choice != 0);
+          
+          sc.close();
     
+    }
+
+    private static void userLogin(Scanner sc) {
+        // TODO: Implement user login functionality
+    }
+
+    private static void userRegistration(Scanner sc) {
+        // TODO: Implement user registration functionality
+    }
 }

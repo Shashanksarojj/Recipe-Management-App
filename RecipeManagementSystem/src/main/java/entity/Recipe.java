@@ -13,6 +13,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "recipes")
+
 public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -95,5 +96,13 @@ public class Recipe {
     public void setLikes(List<Like> likes) {
         this.likes = likes;
     }
+
+	@Override
+	public String toString() {
+		return "Recipe [id=" + id + ", name=" + name + ", description=" + description + ", ingredients=" + ingredients
+				+ ", preparationSteps=" + preparationSteps + "]";
+	}
+    
+    
 }
 

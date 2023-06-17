@@ -11,7 +11,9 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "ingredients")
 public class Ingredient {
-    @Id
+   
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ingredientId;
     
@@ -23,7 +25,15 @@ public class Ingredient {
     
     // Other attributes, constructors, getters, and setters
     
-    public int getIngredientId() {
+    public Ingredient(String name) {
+		super();
+		this.name = name;
+	}
+	public Ingredient() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public int getIngredientId() {
         return ingredientId;
     }
     
@@ -46,4 +56,12 @@ public class Ingredient {
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
     }
+
+
+
+	@Override
+	public String toString() {
+		return "Ingredient [ingredientId=" + ingredientId + ", name=" + name + "]";
+	}
+    
 }

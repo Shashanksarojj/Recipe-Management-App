@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.criteria.Order;
 
+
 @Entity
 public class Customer {
 	
@@ -35,15 +36,14 @@ public class Customer {
 	@Column(name = "is_deleted", nullable = false)
 	private int isDeleted;
 	
-	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-	private Set<Order> orderSet;
+//	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+//	private Set<Order> orderSet;
 	
 	public Customer() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Customer(int id, String name, String username, String password, LocalDate dateOfBirth, int isDeleted,
-			Set<Order> orderSet) {
+	public Customer(int id, String name, String username, String password, LocalDate dateOfBirth, int isDeleted) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -51,7 +51,7 @@ public class Customer {
 		this.password = password;
 		this.dateOfBirth = dateOfBirth;
 		this.isDeleted = isDeleted;
-		this.orderSet = orderSet;
+//		this.orderSet = orderSet;
 	}
 
 	public int getId() {
@@ -102,18 +102,18 @@ public class Customer {
 		this.isDeleted = isDeleted;
 	}
 
-	public Set<Order> getOrderSet() {
-		return orderSet;
-	}
-
-	public void setOrderSet(Set<Order> orderSet) {
-		this.orderSet = orderSet;
-	}
+//	public Set<Order> getOrderSet() {
+//		return orderSet;
+//	}
+//
+//	public void setOrderSet(Set<Order> orderSet) {
+//		this.orderSet = orderSet;
+//	}
 
 	@Override
 	public String toString() {
 		return "Customer [id=" + id + ", name=" + name + ", username=" + username + ", password=" + password
-				+ ", dateOfBirth=" + dateOfBirth + ", isDeleted=" + isDeleted + ", orderSet=" + orderSet + "]";
+				+ ", dateOfBirth=" + dateOfBirth + ", isDeleted=" + isDeleted + "]";
 	}
 
 

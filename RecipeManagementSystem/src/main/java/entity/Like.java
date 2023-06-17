@@ -69,6 +69,13 @@ public class Like {
     public void setLiked(boolean liked) {
         this.liked = liked;
     }
+
+	@Override
+	public String toString() {
+		return "Like [likeId=" + likeId + ", liked=" + liked + "]";
+	}
+    
+    
 }
 
 

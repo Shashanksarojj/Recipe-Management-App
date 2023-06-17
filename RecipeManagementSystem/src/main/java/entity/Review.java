@@ -73,5 +73,12 @@ public class Review {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+	@Override
+	public String toString() {
+		return "Review [id=" + id + ", comment=" + comment + "]";
+	}
+    
+    
 }
 
