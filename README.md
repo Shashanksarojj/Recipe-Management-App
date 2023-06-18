@@ -47,13 +47,13 @@ Implemented a user-friendly interface to facilitate user interactions and provid
 
 # Teck Stack
 
-Language: Java
-Framework: Spring
-ORM (Object-Relational Mapping): Hibernate (using JPA)
-Database: MySQL
-Maven: A build tool like Maven is used for dependency management and building the project.
-Git: Version control system for source code.
-IDE: An integrated development environment Spring TOOL Suit(STS) has been used for development.
+1. Language: Java
+2. Framework: Spring
+3. ORM (Object-Relational Mapping): Hibernate (using JPA)
+4. Database: MySQL
+5. Maven: A build tool like Maven is used for dependency management and building the project.
+6. Git: Version control system for source code.
+7. IDE: An integrated development environment Spring TOOL Suit(STS) has been used for development.
 
 
 
