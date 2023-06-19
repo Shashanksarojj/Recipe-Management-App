@@ -48,7 +48,7 @@ Implemented a user-friendly interface to facilitate user interactions and provid
 # Teck Stack
 
 1. Language: Java
-2. Framework: Spring
+2. JDBC
 3. ORM (Object-Relational Mapping): Hibernate (using JPA)
 4. Database: MySQL
 5. Maven: A build tool like Maven is used for dependency management and building the project.
