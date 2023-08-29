@@ -2,6 +2,9 @@ package com.recipe;
 
 import java.util.Scanner;
 
+import entity.Customer;
+import exception.NoRecordFoundException;
+
 
 public class App 
 {	
@@ -107,9 +110,42 @@ public class App
 
     private static void userLogin(Scanner sc) {
         // TODO: Implement user login functionality
+        System.out.print("Enter username: ");
+        String username = sc.nextLine();
+
+        System.out.print("Enter password: ");
+        String password = sc.nextLine();
+
+        try {
+            Customer customer = customerService.getCustomerByUsername(username);
+
+            if (BCrypt.checkpw(password, customer.getPassword())) {
+                System.out.println("Login successful!");
+                // Implement your user menu or functionality here
+            } else {
+                System.out.println("Invalid password");
+            }
+        } catch (NoRecordFoundException e) {
+            System.out.println("User not found");
+        }
     }
 
     private static void userRegistration(Scanner sc) {
         // TODO: Implement user registration functionality
+    	  System.out.print("Enter name: ");
+          String name = sc.nextLine();
+          
+          System.out.print("Enter username: ");
+          String username = sc.nextLine();
+          
+          System.out.print("Enter password: ");
+          String password = sc.nextLine();
+          String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
+          // Create and register the customer
+          Customer customer = new Customer(name, username, hashedPassword);
+          customerService.registerCustomer(customer);
+          
+          System.out.println("Registration successful!");
     }
 }
