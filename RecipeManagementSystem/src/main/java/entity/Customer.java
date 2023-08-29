@@ -26,7 +26,7 @@ public class Customer {
 	@Column(unique = true, length = 50, nullable = false)	//this is for making it unique
 	private String username;
 	
-	@Column(nullable = false, length = 50)
+	@Column(nullable = false, length = 60)
 	private String password;
 	
 	@Column(name = "date_of_birth", nullable = false)
@@ -43,16 +43,26 @@ public class Customer {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Customer(int id, String name, String username, String password, LocalDate dateOfBirth, int isDeleted) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.username = username;
-		this.password = password;
-		this.dateOfBirth = dateOfBirth;
-		this.isDeleted = isDeleted;
-//		this.orderSet = orderSet;
-	}
+//	public Customer(int id, String name, String username, String password, LocalDate dateOfBirth, int isDeleted) {
+//		super();
+//		this.id = id;
+//		this.name = name;
+//		this.username = username;
+//		this.password = password;
+//		this.dateOfBirth = dateOfBirth;
+//		this.isDeleted = isDeleted;
+////		this.orderSet = orderSet;
+//	}
+	
+	   public Customer(String name, String username, String password) {
+	        this.name = name;
+	        this.username = username;
+	        this.password = password;
+	        this.dateOfBirth = LocalDate.now(); // Set the date of registration
+	        this.isDeleted = 0; // Assuming 0 means not deleted
+	    }
+
+	
 
 	public int getId() {
 		return id;
@@ -115,6 +125,8 @@ public class Customer {
 		return "Customer [id=" + id + ", name=" + name + ", username=" + username + ", password=" + password
 				+ ", dateOfBirth=" + dateOfBirth + ", isDeleted=" + isDeleted + "]";
 	}
+
+	
 
 
 	
