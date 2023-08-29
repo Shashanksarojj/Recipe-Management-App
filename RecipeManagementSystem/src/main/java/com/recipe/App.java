@@ -2,6 +2,15 @@ package com.recipe;
 
 import java.util.Scanner;
 
+import org.mindrot.jbcrypt.BCrypt;
+
+import dao.CustomerDAO;
+import dao.CustomerDAOImpl;
+import entity.Customer;
+import exception.SomethingWentWrongException;
+import service.CustomerService;
+import service.CustomerServiceImpl;
+
 
 public class App 
 {	
@@ -75,6 +84,7 @@ public class App
     public static void main( String[] args )
     {
     	Scanner sc = new Scanner(System.in);
+//    	sc.nextLine();
     	  int choice = 0;
           do {
               System.out.println("1. Admin Login");
@@ -107,9 +117,50 @@ public class App
 
     private static void userLogin(Scanner sc) {
         // TODO: Implement user login functionality
+        System.out.print("Enter username: ");
+        sc.nextLine();
+        String username = sc.nextLine();
+
+        System.out.print("Enter password: ");
+        String password = sc.nextLine();
+
+        CustomerDAO customerDAO = new CustomerDAOImpl(); // Create the DAO instance
+		 CustomerService customerService = new CustomerServiceImpl(customerDAO); // Pass the DAO instance
+		 Customer customer = customerService.getCustomerByUsername(username);
+
+		if (BCrypt.checkpw(password, customer.getPassword())) {
+		    System.out.println("Login successful!");
+		    // Implement your user menu or functionality here
+		} else {
+		    System.out.println("Invalid password");
+		}
     }
 
     private static void userRegistration(Scanner sc) {
         // TODO: Implement user registration functionality
+    	
+    	  System.out.print("Enter name: ");
+    	  sc.nextLine();
+          String name = sc.nextLine();
+          
+          System.out.print("Enter username: ");
+          String username = sc.nextLine();
+          
+          System.out.print("Enter password: ");
+          String password = sc.nextLine();
+          
+          
+          
+          
+          String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
+          // Create and register the customer
+          Customer customer = new Customer(name, username, hashedPassword);
+          
+          CustomerDAO customerDAO = new CustomerDAOImpl(); // Create the DAO instance
+ 		  CustomerService customerService = new CustomerServiceImpl(customerDAO); 
+          customerService.registerCustomer(customer);
+          
+          System.out.println("Registration successful!");
     }
 }
