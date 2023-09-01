@@ -11,14 +11,13 @@ import jakarta.persistence.Query;
 
 public class CategoryServiceImpl implements CategoryService {
 
+    // Adds a new Category to the database
     @Override
     public void addCategory(Category category) throws ServiceException {
-       
-    	 EntityTransaction transaction = null;
-         EntityManager em = null;
-         try {
-//         	em = EMUtils.getEntityManager();
-        	em = EMUtils.getEntityManager();
+        EntityTransaction transaction = null;
+        EntityManager em = null;
+        try {
+            em = EMUtils.getEntityManager();
             transaction = em.getTransaction();
             transaction.begin();
             em.persist(category);
@@ -30,16 +29,16 @@ public class CategoryServiceImpl implements CategoryService {
             throw new ServiceException("Failed to add category.", e);
         } finally {
             em.close();
-//            emf.close();
         }
     }
 
+    // Updates an existing Category in the database
     @Override
     public void updateCategory(Category category) throws ServiceException {
-    	 EntityTransaction transaction = null;
-         EntityManager em = null;
-         try {
-         	em = EMUtils.getEntityManager();
+        EntityTransaction transaction = null;
+        EntityManager em = null;
+        try {
+            em = EMUtils.getEntityManager();
             transaction = em.getTransaction();
             transaction.begin();
             em.merge(category);
@@ -51,16 +50,16 @@ public class CategoryServiceImpl implements CategoryService {
             throw new ServiceException("Failed to update category.", e);
         } finally {
             em.close();
-//            emf.close();
         }
     }
 
+    // Deletes a Category from the database by its ID
     @Override
     public void deleteCategory(int categoryId) throws ServiceException {
-    	 EntityTransaction transaction = null;
-         EntityManager em = null;
-         try {
-         	em = EMUtils.getEntityManager();
+        EntityTransaction transaction = null;
+        EntityManager em = null;
+        try {
+            em = EMUtils.getEntityManager();
             transaction = em.getTransaction();
             transaction.begin();
             Category category = em.find(Category.class, categoryId);
@@ -77,16 +76,15 @@ public class CategoryServiceImpl implements CategoryService {
             throw new ServiceException("Failed to delete category.", e);
         } finally {
             em.close();
-//            emf.close();
         }
     }
 
+    // Retrieves a Category by its ID from the database
     @Override
     public Category getCategoryById(int categoryId) throws ServiceException {
-//    	 EntityTransaction transaction = null;
-         EntityManager em = null;
-         try {
-         	em = EMUtils.getEntityManager();
+        EntityManager em = null;
+        try {
+            em = EMUtils.getEntityManager();
             Category category = em.find(Category.class, categoryId);
             if (category != null) {
                 return category;
@@ -97,23 +95,21 @@ public class CategoryServiceImpl implements CategoryService {
             throw new ServiceException("Failed to retrieve category.", e);
         } finally {
             em.close();
-//            emf.close();
         }
     }
 
+    // Retrieves all Categories from the database
     @Override
     public List<Category> getAllCategories() throws ServiceException {
-//    	 EntityTransaction transaction = null;
-         EntityManager em = null;
-         try {
-         	em = EMUtils.getEntityManager();
+        EntityManager em = null;
+        try {
+            em = EMUtils.getEntityManager();
             Query query = em.createQuery("SELECT c FROM Category c");
             return query.getResultList();
         } catch (Exception e) {
             throw new ServiceException("Failed to retrieve categories.", e);
         } finally {
             em.close();
-//            emf.close();
         }
     }
 }

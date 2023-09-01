@@ -131,6 +131,8 @@ public class App
 		if (BCrypt.checkpw(password, customer.getPassword())) {
 		    System.out.println("Login successful!");
 		    // Implement your user menu or functionality here
+		    
+		    CustomerUI.userMenu(sc);
 		} else {
 		    System.out.println("Invalid password");
 		}

@@ -15,9 +15,11 @@ public class RecipeDAOImpl implements RecipeDAO {
     private EntityManagerFactory emf;
 
     public RecipeDAOImpl() {
+        // Initialize the EntityManagerFactory
         emf = Persistence.createEntityManagerFactory("ConstructWeekSB101");
     }
 
+    // Adds a new Recipe to the database
     @Override
     public void addRecipe(Recipe recipe) {
         EntityManager entityManager = null;
@@ -38,8 +40,9 @@ public class RecipeDAOImpl implements RecipeDAO {
         }
     }
 
+    // Retrieves a Recipe by its ID from the database and throws a ServiceException if not found
     @Override
-    public Recipe getRecipeById(int recipeId) throws ServiceException{
+    public Recipe getRecipeById(int recipeId) throws ServiceException {
         EntityManager entityManager = null;
         try {
             entityManager = emf.createEntityManager();
@@ -53,6 +56,7 @@ public class RecipeDAOImpl implements RecipeDAO {
         }
     }
 
+    // Updates an existing Recipe in the database
     @Override
     public void updateRecipe(Recipe recipe) {
         EntityManager entityManager = null;
@@ -73,6 +77,7 @@ public class RecipeDAOImpl implements RecipeDAO {
         }
     }
 
+    // Deletes a Recipe from the database and throws a ServiceException if not found
     @Override
     public void deleteRecipe(Recipe recipe) throws ServiceException {
         EntityManager entityManager = null;
@@ -93,17 +98,15 @@ public class RecipeDAOImpl implements RecipeDAO {
         }
     }
 
+    // Retrieves all Recipes from the database and throws a ServiceException if an error occurs
     @Override
     public List<Recipe> getAllRecipes() throws ServiceException {
-//    	 System.out.println("In DAO of getAllRecipes");
         EntityManager entityManager = null;
         List<Recipe> recipeList = null;
         try {
             entityManager = emf.createEntityManager();
-           
-            Query query = entityManager.createQuery("SELECT r FROM recipes r");
+            Query query = entityManager.createQuery("SELECT r FROM Recipe r", Recipe.class);
             recipeList = query.getResultList();
-            System.out.println("Retrieved " + recipeList.size() + " recipes");
             return recipeList;
         } catch (Exception e) {
             throw new ServiceException("Failed to get all recipes", e);
@@ -114,18 +117,17 @@ public class RecipeDAOImpl implements RecipeDAO {
         }
     }
 
-
-
+    // Searches for Recipes by ingredient name and throws a ServiceException if an error occurs
     @Override
     public List<Recipe> searchRecipesByIngredients(String ingredientName) throws ServiceException {
         EntityManager entityManager = null;
         try {
             entityManager = emf.createEntityManager();
-            TypedQuery<Recipe> query = entityManager.createQuery("SELECT * FROM Recipe r JOIN r.ingredients i WHERE i.name = :ingredientName", Recipe.class);
+            TypedQuery<Recipe> query = entityManager.createQuery("SELECT r FROM Recipe r JOIN r.ingredients i WHERE i.name = :ingredientName", Recipe.class);
             query.setParameter("ingredientName", ingredientName);
             return query.getResultList();
         } catch (Exception e) {
-            throw new ServiceException ("Failed to search recipes by ingredient", e);
+            throw new ServiceException("Failed to search recipes by ingredient", e);
         } finally {
             if (entityManager != null) {
                 entityManager.close();
@@ -133,12 +135,12 @@ public class RecipeDAOImpl implements RecipeDAO {
         }
     }
 
+    // Retrieves the top-rated Recipes based on the provided count
     @Override
     public List<Recipe> getTopRatedRecipes(int count) {
-   	 EntityManager entityManager = null;
-     try {
-    	
-     		entityManager = EMUtils.getEntityManager();
+        EntityManager entityManager = null;
+        try {
+            entityManager = EMUtils.getEntityManager();
             Query query = entityManager.createQuery("SELECT r FROM Recipe r ORDER BY r.rating DESC", Recipe.class);
             query.setMaxResults(count);
             return query.getResultList();
@@ -146,6 +148,4 @@ public class RecipeDAOImpl implements RecipeDAO {
             entityManager.close();
         }
     }
-    
-   
 }
